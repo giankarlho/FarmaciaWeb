@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Mantenimiento de Paciente</title>
+        <f:event type="preRenderView" listener="#{pacienteC.listar()}" />
+    </h:head>
+    <h:body>                                 
+        <h:form id="formPac">
+            <p:growl id="messages" autoUpdate="true" showDetail="true" />
+            <p:dataTable value="#{pacienteC.listaPaciente}" var="lista" id="tblPac" rows="10" paginator="true"
+                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
+                         {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,100">
+                <p:column headerText="Id">
+                    <h:outputText value="#{lista.NUMPAC}"/>
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{lista.NOMPAC}"/>
+                </p:column>
+                <p:column headerText="Apellido">
+                    <h:outputText value="#{lista.APEPAC}"/>
+                </p:column>
+                <p:column headerText="Sexo">
+                    <h:outputText value="#{lista.SEXPAC}"/>
+                </p:column>
+                <p:column headerText="Nacimiento">
+                    <h:outputText value="#{lista.FNPAC}"/>
+                </p:column>
+                <p:column headerText="DNI">
+                    <h:outputText value="#{lista.DNIPAC}"/>
+                </p:column>
+                <p:column headerText="Teléfono">
+                    <h:outputText value="#{lista.TELFPAC}"/>
+                </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{lista.EMAILPAC}"/>
+                </p:column>
+                <p:column headerText="Distrito">
+                    <h:outputText value="#{lista.NUMUBI}"/>
+                </p:column>
+                <p:column headerText="Dirección">
+                    <h:outputText value="#{lista.DIRPAC}"/>
+                </p:column>
+                <p:column headerText="Grupo Sanguineo">
+                    <h:outputText value="#{lista.GSPAC}"/>
+                </p:column>
+                <p:column headerText="Historia">
+                    <h:outputText value="#{lista.HCPAC}"/>
+                </p:column>
+                <p:column headerText="Estado">
+                    <h:outputText value="#{lista.ESTPAC}"/>
+                </p:column>
+                <p:column headerText="Modificar" exportable="false" >
+                    <p:commandButton value="Modificar" update=":UpdForm" onclick="PF('wdlUpdate').show()">
+                        <!--<f:setPropertyActionListener value="#{lista}" target="#{pacienteC.paciente}"/>-->
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:contextMenu for="tblPac" >
+                <p:menuitem value="Editar" oncomplete="PF('wdlUpdate').show();" update=":UpdForm" icon="pi pi-refresh"/>
+                <p:menuitem value="Eliminar" actionListener="#{pacienteC.eliminar()}" update="messages tblPac" icon="pi pi-times"/>
+            </p:contextMenu>
+        </h:form>
+        <ui:include src="Update.xhtml"/>
+    </h:body>
+</html>
+
