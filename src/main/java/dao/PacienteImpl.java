@@ -104,10 +104,10 @@ public class PacienteImpl extends Conexion implements ICRUD<Paciente> {
         return lista;
     }
 
-    public Integer obtenerCodigoPaciente(String cadenaUbi) throws SQLException, Exception {
+    public static Integer obtenerCodigoPaciente(String cadenaUbi) throws SQLException, Exception {
         String sql = "select NUMPAC from PACIENTE where concat(APEPAC,'  ',NOMPAC) = ?";
         try {
-            PreparedStatement ps = this.conectar().prepareCall(sql);
+            PreparedStatement ps = PacienteImpl.conectar().prepareCall(sql);
             ps.setString(1, cadenaUbi);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

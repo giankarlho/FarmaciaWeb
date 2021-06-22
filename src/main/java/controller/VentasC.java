@@ -6,14 +6,17 @@ import dao.VentasD;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.swing.JOptionPane;
 import lombok.Data;
 import model.Medicina;
 import model.Personal;
@@ -21,26 +24,31 @@ import model.Paciente;
 import model.RegVenta;
 import model.RegVentaDet;
 import model.TempVta;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import reports.ReporteS;
+import services.FuncFecha;
 
 @Data
 @Named(value = "ventasC")
 @SessionScoped
 public class VentasC implements Serializable {
-
-    Boolean enabled;
-
+    
     Medicina medicina;  // para el autocomplete de productos y agregar al carrito temporal
     Paciente paciente;  // para el autocomplete de paciente
-    RegVenta regventa;  // para el registro de la Transaccional
+    RegVenta regventa;  // para el registro de la Transaccional Padre
     RegVentaDet regdetVta;
     VentasD daoVtas;
     TempVta tempVta;    // para obtener los campos de la lista temporal
+    
+    // Para filtrar las ventas
+    Date fecha1,fecha2;
+    String anio;
 
+    private String fechaActual,horaActual;
     double precio = 0.0, monto = 0.0;
     Integer stockMed = 0, cantPed = 1;
     String proveedor = "", presentacion = "", generico = "", comercial = "", cadenaMed = "", cadenaPac = "";
-
-    List<Object> lstProductos = new ArrayList();    // Lista temporal de los productos agregados
 
     List<TempVta> productos; // Lista temporal de los productos agregados
 
@@ -52,17 +60,13 @@ public class VentasC implements Serializable {
         regventa = new RegVenta();
         productos = new ArrayList();
         daoVtas = new VentasD();
-
         regventa.setFecha(GregorianCalendar.getInstance().getTime());
+        horaActual = FuncFecha.mostrarHora();
     }
 
     @PostConstruct
     public void init() {
         daoMed = new MedicinaImpl();
-    }
-
-    public void pruebaMensaje() throws Exception {
-
     }
 
     public List<TempVta> agregarTmp() throws Exception {
@@ -79,7 +83,6 @@ public class VentasC implements Serializable {
             tempVta.setSubTotal((double) (tempVta.getPrecio() * tempVta.getCantPed()));
             this.productos.add(tempVta);
             monto += tempVta.getSubTotal();
-            
             limpiarCampos();
             for (TempVta temp : productos) {
                 System.out.println(temp);
@@ -102,10 +105,12 @@ public class VentasC implements Serializable {
 
     public void nuevoRegVta() throws Exception {
         tempVta = new TempVta();
-        cadenaPac = "";
-        regventa.setNdoc("");
+        cadenaPac = "";        
+        monto = 0.0;
         limpiarCampos();
-        productos.clear();
+        productos.clear();                   
+        Calendar c1 = Calendar.getInstance();        
+        regventa.setNdoc(daoVtas.generarTicket(String.valueOf(c1.get(Calendar.YEAR)), 3, "TIC", true));
     }
 
     public void anularTmp() throws Exception {
@@ -114,28 +119,33 @@ public class VentasC implements Serializable {
     }
 
     public void registar() {
-        //  NCOD_DOC(identity)	NUM_DOC		TIP_DOC		FCHING_DOC	MONT_DOC	OBS_DOC	NUMPAC
+        // TBL-VTA: NCOD_DOC(identity)	NUM_DOC		TIP_DOC		FCHING_DOC	MONT_DOC	OBS_DOC	NUMPAC
+
         try {
             regdetVta = new RegVentaDet();
-            regventa.setTipdoc("1"); // ticket
+            regventa.setTipdoc("1");                                                // 1-ticket, 2-boleta, 3-factura
             regventa.setMonto(monto);
-            PacienteImpl daoPac = new PacienteImpl();
-            regventa.setNumpac(daoPac.obtenerCodigoPaciente(cadenaPac));
-            daoVtas.registrarVta(regventa);
-            //  NUMMED	NCOD_DOC	CANTV_MED	STOTV_DOC
-            regdetVta.setNrodoc(daoVtas.obtenerCodigoVta());
-            for (TempVta venta : productos) {
-                regdetVta.setNummed(venta.getIdMed());                
+            regventa.setNumpac(PacienteImpl.obtenerCodigoPaciente(cadenaPac));
+            daoVtas.registrarVta(regventa);                                         // Registrando la Venta
+
+            //  TBL-DETVENTA: NUMMED	NCOD_DOC	CANTV_MED	STOTV_DOC
+            regdetVta.setNrodoc(daoVtas.obtenerCodigoVta());                        // Para obtener el código de Venta
+            for (TempVta venta : productos) {                                       // Registrando el detalle
+                regdetVta.setNummed(venta.getIdMed());
                 regdetVta.setCant(venta.getCantPed());
                 regdetVta.setStotal(venta.getSubTotal());
                 daoVtas.registrarVtaDet(regdetVta);
             }
-            nuevoRegVta();
+            nuevoRegVta();                                                          // Limpieza de campos en la vista
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro", "Satisfactorio"));
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
+            fechaActual = formatoFecha.format(regventa.getFecha());
+            ReporteS reports = new ReporteS();
+            JasperPrint reportelleno = reports.generarTicket(BigDecimal.valueOf(regdetVta.getNrodoc()), "Giancarlo Valencia ", fechaActual, horaActual);
+            JasperPrintManager.printReport(reportelleno, true);
         } catch (Exception e) {
-
+            System.out.println("Error en registrarC " + e.getMessage());
         }
-//        this.desactivarBotones();
     }
 
     public List<String> completeTextPaciente(String query) throws SQLException, Exception {
@@ -161,11 +171,4 @@ public class VentasC implements Serializable {
         generico = dao.generico;
     }
 
-    public void activarBotones() {
-        enabled = true;
-    }
-
-    public void desactivarBotones() {
-        enabled = false;
-    }
 }
