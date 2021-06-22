@@ -24,6 +24,7 @@ public class DetVentaC implements Serializable {
     List<ListVenta> lstVenta;
     List<DetVta> lstDetVenta;
     List<ListVenta> selectedVta;
+    double total =0.0;
 
     public DetVentaC() {
         lstVenta = new ArrayList<>();        
@@ -44,9 +45,12 @@ public class DetVentaC implements Serializable {
 //        }
     }
 
-    public void listarDetVta(int codigo) throws Exception {
+    public void listarDetVta(int codigo) throws Exception {        
         try {
             lstDetVenta = daoDetVta.listarDetVta(codigo);
+            for (DetVta det: lstDetVenta){
+                total += det.getSubtotal();
+            }
         } catch (Exception e) {
             System.out.println("Error en controller/listarDetVta " + e.getMessage());
         }
@@ -65,11 +69,6 @@ public class DetVentaC implements Serializable {
     public void onRowSelect(SelectEvent event) throws Exception {
         ListVenta vta = (ListVenta) event.getObject();        
         lstDetVenta = daoDetVta.listarDetVta(Integer.parseInt(vta.getCodDoc()));
-//        FacesMessage msg = new FacesMessage("ID vta seleccionado", vta.getCodDoc());
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-    
-    public int getRandomPrice() {
-        return (int) (Math.random() * 100000);
-    }
+    }    
+
 }

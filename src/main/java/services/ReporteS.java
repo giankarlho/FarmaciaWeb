@@ -39,14 +39,13 @@ public class ReporteS extends Conexion {
             System.out.println("ERROR en exportarPerPDF: " + e.getMessage());
         }
     }
-        public JasperPrint generarTicket(BigDecimal nrodoc, String usuario, String fechaActual, String horaActual) throws JRException, ClassNotFoundException {
+        public JasperPrint generarTicket(BigDecimal nrodoc, String usuario, String fechaActual) throws JRException, ClassNotFoundException {
         try {
             File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("reports/Ticket.jasper"));                        
             HashMap parameters = new HashMap();
             parameters.put("NCOD_DOC", nrodoc);
             parameters.put("pPersonal", usuario);
-            parameters.put("pFecha", fechaActual);
-            parameters.put("pHora", horaActual);    
+            parameters.put("pFecha", fechaActual);    
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters, this.conectar());            
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();            
             response.addHeader("Content-disposition", "attachment; filename=TicketVenta_(" + forma.format(now) + ").pdf");

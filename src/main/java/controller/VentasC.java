@@ -141,7 +141,7 @@ public class VentasC implements Serializable {
             SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
             fechaActual = formatoFecha.format(regventa.getFecha());
             ReporteS reports = new ReporteS();
-            JasperPrint reportelleno = reports.generarTicket(BigDecimal.valueOf(regdetVta.getNrodoc()), "Giancarlo Valencia ", fechaActual, horaActual);
+            JasperPrint reportelleno = reports.generarTicket(BigDecimal.valueOf(regdetVta.getNrodoc()), "Giancarlo Valencia ", fechaActual);
             JasperPrintManager.printReport(reportelleno, true);
         } catch (Exception e) {
             System.out.println("Error en registrarC " + e.getMessage());

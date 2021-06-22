@@ -65,28 +65,7 @@
                     </p:column>
                     <p:column headerText="Valor s/" sortBy="#{product.monto}">
                         <h:outputText value="#{product.monto}" />
-                    </p:column>  
-                    <p:summaryRow>
-                        <p:column colspan="4" style="text-align:right">
-                            <h:outputText value="Total:" />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{detVentaC.randomPrice}">
-                                <f:convertNumber type="currency" currencySymbol="S/ " />
-                            </h:outputText>
-                        </p:column>
-                    </p:summaryRow>
-
-                    <p:summaryRow>
-                        <!-- this column is here so dataTable works correctly with draggableColumns -->
-                        <p:column style="visibility: hidden;"/>
-
-                        <p:column style="text-align: right">
-                            <h:outputText id="SUM-VAL"
-                                          value="#{detVentaC.randomPrice['monto']}" />
-                        </p:column>        
-
-                    </p:summaryRow>
+                    </p:column>                      
                     <f:facet name="footer">
                         Hay en total: #{fn:length(detVentaC.lstVenta)} registros de venta.
                     </f:facet>
