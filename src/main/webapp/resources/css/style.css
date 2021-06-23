@@ -28,3 +28,7 @@
 button.ui-button {
     margin-right: .5rem;
 }
+
+.ui-datagrid-no-border>.ui-datagrid-content {
+	border: none;
+}

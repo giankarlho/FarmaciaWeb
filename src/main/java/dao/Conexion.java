@@ -14,7 +14,7 @@ public class Conexion {
             String user = "sa";
             String pwd = "@abc123@";
             String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-            String url = "jdbc:sqlserver://localhost;databaseName=BDHospital";
+            String url = "jdbc:sqlserver://localhost;databaseName=BDFarmacia";
         try {
             Class.forName(driver).newInstance();
             cnx = DriverManager.getConnection(url, user, pwd);

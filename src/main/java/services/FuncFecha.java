@@ -10,7 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class FuncFecha {
-       public static java.util.Date fechaActual() {
+
+    public static java.util.Date fechaActual() {
         java.util.Date fecha = new java.util.Date();
         return (fecha);
     }
@@ -28,16 +29,21 @@ public class FuncFecha {
 //        });        
 //        timer.start();
 //    }
-
     //este es le metodo para mostrar la hora
     public static String mostrarHora() {
         Calendar cal = Calendar.getInstance();
         String hora = cal.get(cal.HOUR_OF_DAY) + ":" + cal.get(cal.MINUTE) + ":" + cal.get(cal.SECOND);
         return hora;
-    }    
+    }
+
+    public static String  fechaString(Date fecha){
+       SimpleDateFormat forma = new SimpleDateFormat("yyyy-MM-dd");
+       return forma.format(fecha);
+    }
+        
     
     public static synchronized java.util.Date deStringToDate(String fecha) {
-        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaEnviar = null;
         try {
             fechaEnviar = (Date) formatoDelTexto.parse(fecha);
@@ -46,5 +52,5 @@ public class FuncFecha {
             ex.printStackTrace();
             return null;
         }
-    }  
+    }
 }

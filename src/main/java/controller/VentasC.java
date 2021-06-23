@@ -33,24 +33,25 @@ import services.FuncFecha;
 @Named(value = "ventasC")
 @SessionScoped
 public class VentasC implements Serializable {
-    
+
     Medicina medicina;  // para el autocomplete de productos y agregar al carrito temporal
     Paciente paciente;  // para el autocomplete de paciente
     RegVenta regventa;  // para el registro de la Transaccional Padre
     RegVentaDet regdetVta;
     VentasD daoVtas;
     TempVta tempVta;    // para obtener los campos de la lista temporal
-    
+
     // Para filtrar las ventas
-    Date fecha1,fecha2;
+    Date fecha1, fecha2;
     String anio;
 
-    private String fechaActual,horaActual;
+    private String fechaActual, horaActual;
     double precio = 0.0, monto = 0.0;
     Integer stockMed = 0, cantPed = 1;
     String proveedor = "", presentacion = "", generico = "", comercial = "", cadenaMed = "", cadenaPac = "";
 
     List<TempVta> productos; // Lista temporal de los productos agregados
+    List<TempVta> selectedProduct;
 
     MedicinaImpl daoMed;
 
@@ -71,21 +72,32 @@ public class VentasC implements Serializable {
 
     public List<TempVta> agregarTmp() throws Exception {
         try {
-            tempVta = new TempVta();
-            tempVta.setIdMed(daoMed.obtenerCodigoMedicina(cadenaMed));
-            tempVta.setGenerico(daoMed.generico);
-            tempVta.setComercial(daoMed.comercial);
-            tempVta.setPresentacion(daoMed.presentacion);
-            tempVta.setProveedor(daoMed.proveedor);
-            tempVta.setStockMed(daoMed.stockMed);
-            tempVta.setPrecio(daoMed.precio);
-            tempVta.setCantPed(cantPed); // esto ya lo tengo en la vista
-            tempVta.setSubTotal((double) (tempVta.getPrecio() * tempVta.getCantPed()));
-            this.productos.add(tempVta);
-            monto += tempVta.getSubTotal();
-            limpiarCampos();
-            for (TempVta temp : productos) {
-                System.out.println(temp);
+            boolean repetido = false;
+            for (int i=0;i<productos.size();i++){
+                if(productos.get(i).getIdMed().equals(daoMed.obtenerCodigoMedicina(cadenaMed))){
+                    repetido = true;
+                    cadenaMed ="";
+                    break;
+                }            }            
+            if (repetido==true) {                
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Duplicado", "Ya se tiene el producto en la compra"));
+            } else {                
+                tempVta = new TempVta();
+                tempVta.setIdMed(daoMed.obtenerCodigoMedicina(cadenaMed));
+                tempVta.setGenerico(daoMed.generico);
+                tempVta.setComercial(daoMed.comercial);
+                tempVta.setPresentacion(daoMed.presentacion);
+                tempVta.setProveedor(daoMed.proveedor);
+                tempVta.setStockMed(daoMed.stockMed);
+                tempVta.setPrecio(daoMed.precio);
+                tempVta.setCantPed(cantPed); // esto ya lo tengo en la vista
+                tempVta.setSubTotal((double) (tempVta.getPrecio() * tempVta.getCantPed()));
+                this.productos.add(tempVta);
+                monto += tempVta.getSubTotal();
+                limpiarCampos();
+//                for (TempVta temp : productos) {
+//                    System.out.println(temp.getIdMed());
+//                }
             }
         } catch (Exception e) {
             System.out.println("Error en agregar MedicinaC " + e.getMessage());
@@ -105,11 +117,11 @@ public class VentasC implements Serializable {
 
     public void nuevoRegVta() throws Exception {
         tempVta = new TempVta();
-        cadenaPac = "";        
+        cadenaPac = "";
         monto = 0.0;
         limpiarCampos();
-        productos.clear();                   
-        Calendar c1 = Calendar.getInstance();        
+        productos.clear();
+        Calendar c1 = Calendar.getInstance();
         regventa.setNdoc(daoVtas.generarTicket(String.valueOf(c1.get(Calendar.YEAR)), 3, "TIC", true));
     }
 
@@ -118,9 +130,23 @@ public class VentasC implements Serializable {
         productos.clear();
     }
 
+    public void eliminarFilaTmp(TempVta tempVta) throws Exception {
+        try {
+            productos.remove(tempVta);
+            sumarMontoTmp();
+        } catch (Exception e) {
+            System.out.println("Error en VentasC/eliminarFilaTmp " + e.getMessage());
+        }
+    }
+    
+    private void sumarMontoTmp(){
+        for (TempVta tempVta: productos){
+            monto += tempVta.getSubTotal();
+        }
+    }
+
     public void registar() {
         // TBL-VTA: NCOD_DOC(identity)	NUM_DOC		TIP_DOC		FCHING_DOC	MONT_DOC	OBS_DOC	NUMPAC
-
         try {
             regdetVta = new RegVentaDet();
             regventa.setTipdoc("1");                                                // 1-ticket, 2-boleta, 3-factura
@@ -129,7 +155,7 @@ public class VentasC implements Serializable {
             daoVtas.registrarVta(regventa);                                         // Registrando la Venta
 
             //  TBL-DETVENTA: NUMMED	NCOD_DOC	CANTV_MED	STOTV_DOC
-            regdetVta.setNrodoc(daoVtas.obtenerCodigoVta());                        // Para obtener el código de Venta
+//            regdetVta.setNrodoc(daoVtas.obtenerCodigoVta());                        // Para obtener el código de Venta
             for (TempVta venta : productos) {                                       // Registrando el detalle
                 regdetVta.setNummed(venta.getIdMed());
                 regdetVta.setCant(venta.getCantPed());
@@ -138,8 +164,7 @@ public class VentasC implements Serializable {
             }
             nuevoRegVta();                                                          // Limpieza de campos en la vista
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro", "Satisfactorio"));
-            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy/MM/dd");
-            fechaActual = formatoFecha.format(regventa.getFecha());
+            fechaActual = FuncFecha.fechaString((java.sql.Date) regventa.getFecha());
             ReporteS reports = new ReporteS();
             JasperPrint reportelleno = reports.generarTicket(BigDecimal.valueOf(regdetVta.getNrodoc()), "Giancarlo Valencia ", fechaActual);
             JasperPrintManager.printReport(reportelleno, true);

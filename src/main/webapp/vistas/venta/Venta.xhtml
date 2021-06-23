@@ -16,38 +16,67 @@
             <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
             <h1>Venta de Medicamentos</h1>
             <h:form id="frmTempVta">      
-                <p:panelGrid>
+                <p:panelGrid styleClass="ui-datagrid-no-border">
                     <p:row>
-                        <p:column colspan="2" style="font-weight: bold; color: orangered">
+                        <p:column style="font-weight: bold; color: orangered">
                             <p:outputLabel value="Ticker Nro. " />  
                         </p:column>                                                        
-                        <p:column colspan="2" style="font-weight: bold; color: deepskyblue;">
+                        <p:column style="font-weight: bold; color: deepskyblue;">
                             <p:outputLabel id="nroDoc" value="#{ventasC.regventa.ndoc}"/> 
+                        </p:column>          
+                        <p:column styleClass="ui-widget-header" style="background: white">
+                            <p:spacer height="0"/>
                         </p:column>
-                        <p:column colspan="2" style="font-weight: bold; color: orangered">
-                            <p:outputLabel value="   Fecha" for="calendar" />
+                        <p:column style="font-weight: bold; color: orangered">
+                            <p:outputLabel value="Fecha" for="calendar" />
                         </p:column>                                                        
-                        <p:column colspan="2" style="font-weight: bold; color: deepskyblue;">
+                        <p:column style="font-weight: bold; color: deepskyblue;">
                             <p:datePicker id="calendar" value="#{ventasC.regventa.fecha}" locale="es" monthNavigator="true" pattern="dd-MM-yyyy"/>                        
                         </p:column>
                     </p:row>
-                </p:panelGrid>
-                <br/>
-                <p:panelGrid columns="4">
-                    <p:outputLabel value="Paciente"/>
-                    <p:autoComplete id="pac" value="#{ventasC.cadenaPac}" completeMethod="#{ventasC.completeTextPaciente}"
-                                    inputStyle="width: 135%;" minQueryLength="2" class="contPac" />
-                    <p:inputText id="dni" value="#{ventasC.paciente.DNIPAC}"/><p:commandButton value="Buscar Reniec" />
-                    <p:outputLabel value="Medicina" />
-                    <p:autoComplete id="med" value="#{ventasC.cadenaMed}" completeMethod="#{ventasC.completeTextMedicina}" inputStyle="width: 135%;" minQueryLength="2" class="contMed"/> 
-                    <p:outputLabel value="Cantidad"/>
-                    <p:spinner id="cant" value="#{ventasC.cantPed}" max="50" min="1"/>
+                    <p:row>
+                        <p:column colspan="5" styleClass="ui-widget-header" style="background: white">
+                            <p:spacer height="0"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Paciente"/>
+                        </p:column>
+                        <p:column colspan="4">
+                            <p:autoComplete id="pac" value="#{ventasC.cadenaPac}" completeMethod="#{ventasC.completeTextPaciente}"
+                                            inputStyle="width: 100%;" minQueryLength="2" class="contPac" />  
+                        </p:column> 
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Medicina" />
+                        </p:column>
+                        <p:column colspan="4">
+                            <p:autoComplete id="med" value="#{ventasC.cadenaMed}" completeMethod="#{ventasC.completeTextMedicina}" 
+                                            inputStyle="width: 100%;" minQueryLength="2" class="contMed"/> 
+                        </p:column>  
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Cantidad"/>
+                        </p:column>
+                        <p:column>
+                            <p:spinner id="cant" value="#{ventasC.cantPed}" max="50" min="1"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Nuevo" actionListener="#{ventasC.nuevoRegVta()}" update="frmTempVta nroDoc" />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Agregar" actionListener="#{ventasC.agregarTmp()}" update="tblProduct frmTempVta" id="btnAgregar" />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Anular" actionListener="#{ventasC.anularTmp()}" update="tblProduct frmTempVta"/>
+                        </p:column>
+                    </p:row>
+
                 </p:panelGrid> 
-                <br/>
-                <p:commandButton value="Nuevo" actionListener="#{ventasC.nuevoRegVta()}" update="frmTempVta nroDoc" />
-                <p:commandButton value="Agregar" actionListener="#{ventasC.agregarTmp()}" update="tblProduct frmTempVta" id="btnAgregar" />
-                <p:commandButton value="Anular" actionListener="#{ventasC.anularTmp()}" update="tblProduct frmTempVta"/>
-                <p/>                
+                <br/>               
 
                 <p:dataTable id="tblProduct" var="product" value="#{ventasC.productos}" emptyMessage="Se tiene la lista sin medicamentos">
                     <p:column headerText="Id" style="width:3%">
@@ -79,6 +108,11 @@
                     </p:column>
                     <p:column style="width:35px">
                         <p:rowEditor />
+                    </p:column>       
+                    <p:column headerText="Quitar" style="width: 30px">
+                        <p:commandButton value="Eliminar" icon="pi pi-times" actionListener="${ventasC.eliminarFilaTmp(product)}"
+                                         update="frmTempVta tblProduct">
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
                 <br/>

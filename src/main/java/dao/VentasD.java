@@ -17,40 +17,39 @@ import model.RegVentaDet;
 public class VentasD extends Conexion {
 
     public void registrarVta(RegVenta venta) throws Exception {
-        try {
-            // NCOD_DOC     NUM_DOC	TIP_DOC		FCHING_DOC	MONT_DOC	OBS_DOC     NUMPAC            
-//            String sqlVta = "{call spInsertVta}";
-            String sqlVta = "insert into doc_venta values (?,?,?,?,?,?,?)";
-            PreparedStatement psVta = this.conectar().prepareStatement(sqlVta);
-            psVta.setString(1, venta.getNdoc());
-            psVta.setString(2, venta.getTipdoc());
+        // NCOD_DOC     NUM_DOC	TIP_DOC		FCHING_DOC	MONT_DOC	OBS_DOC     NUMPAC            
+        try {      
+//            String sqlVta = "insert into doc_venta values (?,?,?,?,?,?,?)";
+//            PreparedStatement ps = this.conectar().prepareStatement(sqlVta);
+            CallableStatement ps = this.conectar().prepareCall("{call spInsertVta(?,?,?,?,?,?,?)}");
+            ps.setString(1, venta.getNdoc());
+            ps.setString(2, venta.getTipdoc());
             SimpleDateFormat forma = new SimpleDateFormat("yyyy-MM-dd");
-            psVta.setString(3, forma.format(venta.getFecha()));
-            psVta.setDouble(4, venta.getMonto());
-            psVta.setString(5, venta.getObs());
-            psVta.setInt(6, venta.getNumpac());
-            psVta.setString(7, "A");
-            psVta.executeUpdate();
-            psVta.close();
+            ps.setString(3, forma.format(venta.getFecha()));        // model/fecha tipo Date
+            ps.setDouble(4, venta.getMonto());
+            ps.setString(5, venta.getObs());
+            ps.setInt(6, venta.getNumpac());
+            ps.setString(7, "A");
+            ps.executeUpdate();
+            ps.close();
         } catch (Exception e) {
-            System.out.println("Error en registrarDao " + e.getMessage());
+            System.out.println("Error en VentasD/registrarVta " + e.getMessage());
         }
     }
 
     public void registrarVtaDet(RegVentaDet detVenta) throws Exception {
-        // NUMMED       NCOD_DOC	CANTV_MED	STOTV_DOC
-        //            String sqlDetVta = "{call spInsertDetVta}";            
-        String sqlDetVta = "insert into detventa values (?,?,?,?)";
+        // NUMMED       NCOD_DOC	CANTV_MED	STOTV_DOC                
         try {
-            PreparedStatement psDetVta = this.conectar().prepareStatement(sqlDetVta);
-            psDetVta.setInt(1, detVenta.getNummed());
-            psDetVta.setInt(2, detVenta.getNrodoc());
-            psDetVta.setInt(3, detVenta.getCant());
-            psDetVta.setDouble(4, detVenta.getStotal());
-            psDetVta.executeUpdate();
-            psDetVta.close();
+    //        String sqlDetVta = "insert into detventa values (?,?,?,?)";
+    //        PreparedStatement ps = this.conectar().prepareStatement(sqlDetVta);
+            CallableStatement ps = this.conectar().prepareCall("{call spInsertDetVta(?,?,?)}");
+            ps.setInt(1, detVenta.getNummed());            
+            ps.setInt(2, detVenta.getCant());
+            ps.setDouble(3, detVenta.getStotal());
+            ps.executeUpdate();
+            ps.close();
         } catch (Exception e) {
-            System.out.println("Error al registrarVtaDet " + e.getMessage());
+            System.out.println("Error al VentasD/registrarVtaDet " + e.getMessage());
         } finally {
             this.cerrar();
         }
