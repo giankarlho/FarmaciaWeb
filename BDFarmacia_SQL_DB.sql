@@ -3,7 +3,8 @@
   -- CREATE DATABASE BDFarmacia;
 -- END;
 -- GO
-
+use master;
+go
 DROP database IF EXISTS BDFarmacia;
 CREATE DATABASE BDFarmacia;
 go
@@ -126,7 +127,7 @@ CREATE TABLE SERIE
 );
 GO
 
--- Procedures, Views, Tiggers
+-- Procedures, Views, Functions, Triggers
 
 -- INSERT Venta y detVenta
 create procedure spInsertVta					-- VentasD/registrarVta
