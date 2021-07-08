@@ -55,7 +55,7 @@ public class PacienteImpl extends Conexion implements ICRUD<Paciente> {
     public List<Paciente> listarTodos() throws Exception {
         List<Paciente> pacientes = new ArrayList();
         Paciente pac;
-        String sql = "select * from paciente";
+        String sql = "select * from paciente order by numpac desc";
 //               
         try {
             Statement st = this.conectar().createStatement();
@@ -78,7 +78,7 @@ public class PacienteImpl extends Conexion implements ICRUD<Paciente> {
                 pacientes.add(pac);
             }
         } catch (Exception e) {
-            throw e;
+            System.out.println("Error en PacienteImpl/listarTodos " + e.getMessage());
         }
         return pacientes;
     }

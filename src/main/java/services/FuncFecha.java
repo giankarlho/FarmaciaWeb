@@ -36,7 +36,7 @@ public class FuncFecha {
         return hora;
     }
 
-    public static String  fechaString(Date fecha){
+    public static String fechaToString(Date fecha){
        SimpleDateFormat forma = new SimpleDateFormat("yyyy-MM-dd");
        return forma.format(fecha);
     }

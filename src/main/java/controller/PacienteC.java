@@ -8,10 +8,12 @@ import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import lombok.Data;
 import model.Paciente;
 
 @Named(value = "pacienteC")
 @SessionScoped
+@Data
 public class PacienteC implements Serializable {
 
     private Paciente paciente;
@@ -47,32 +49,10 @@ public class PacienteC implements Serializable {
     public void listar() throws Exception {
         try {
             listaPaciente = dao.listarTodos();
+            System.out.println("listado" + listaPaciente);
         } catch (Exception e) {
+            System.out.println("Error en PacienteC/listar: " + e.getMessage());
         }
     }
-
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
-
-    public List<Paciente> getListaPaciente() {
-        return listaPaciente;
-    }
-
-    public void setListaPaciente(List<Paciente> listaPaciente) {
-        this.listaPaciente = listaPaciente;
-    }
-
-    public Date getFechaFormulario() {
-        return fechaFormulario;
-    }
-
-    public void setFechaFormulario(Date fechaFormulario) {
-        this.fechaFormulario = fechaFormulario;
-    }
-
+    
 }

@@ -81,7 +81,7 @@ public class MedicinaC implements Serializable {
         try {
             listaMed = dao.listarTodos();
         } catch (Exception e) {
-            throw e;
+            System.out.println("Error en MedicinaC/listar: " + e.getMessage());
         }
     }
 

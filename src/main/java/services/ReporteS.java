@@ -20,9 +20,9 @@ public class ReporteS extends Conexion {
 
     private Date now = new Date();
     SimpleDateFormat forma = new SimpleDateFormat("dd/MMM/yyyy");
-    
+
     public static final String REPORTE_IMPRESION_TICKET = "Ticket.jasper";
-    
+
     // Reporte para la vista Medicina
     public void exportarMedicinaPDF(Map parameters) throws JRException, IOException, Exception {
         try {
@@ -39,23 +39,24 @@ public class ReporteS extends Conexion {
             System.out.println("ERROR en exportarPerPDF: " + e.getMessage());
         }
     }
-        public JasperPrint generarTicket(BigDecimal nrodoc, String usuario, String fechaActual) throws JRException, ClassNotFoundException {
+
+    public JasperPrint generarTicket(BigDecimal nrodoc, String usuario, String fechaActual) throws JRException, ClassNotFoundException {
         try {
-            File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("reports/Ticket.jasper"));                        
+            File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("reports/Ticket.jasper"));
             HashMap parameters = new HashMap();
             parameters.put("NCOD_DOC", nrodoc);
             parameters.put("pPersonal", usuario);
-            parameters.put("pFecha", fechaActual);    
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters, this.conectar());            
-            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();            
+            parameters.put("pFecha", fechaActual);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters, this.conectar());
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             response.addHeader("Content-disposition", "attachment; filename=TicketVenta_(" + forma.format(now) + ").pdf");
             ServletOutputStream stream = response.getOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
             stream.flush();
             stream.close();
             FacesContext.getCurrentInstance().responseComplete();
-            return jasperPrint;            
-        } catch (Exception e) {                        
+            return jasperPrint;
+        } catch (Exception e) {
             System.out.println("ERROR en JasperPrint generarTicket: " + e.getMessage());
         }
         return null;

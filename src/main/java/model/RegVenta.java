@@ -1,5 +1,6 @@
 package model;
 
+
 import java.util.Date;
 import lombok.Data;
 
@@ -9,6 +10,6 @@ public class RegVenta {
     Integer id, numpac, idReg;
     double monto;
     String ndoc, tipdoc, obs, estado;
-    Date fecha;      
+    Date fecha;     
 
 }

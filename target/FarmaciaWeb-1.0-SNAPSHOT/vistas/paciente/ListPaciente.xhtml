@@ -1,78 +1,80 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"      
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
-        <title>Mantenimiento de Paciente</title>
-        <f:event type="preRenderView" listener="#{pacienteC.listar()}" />
-    </h:head>
-    <h:body>   
-        <ui:composition template="./../template/template1.xhtml">
-            <ui:define name="content">
-                <h:form id="formPac">
- 
-                    <p:dataTable value="#{pacienteC.listaPaciente}" var="lista" id="tblPac" rows="10" paginator="true"
-                                 paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
-                                 {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,100">
-                        <p:column headerText="Id">
-                            <h:outputText value="#{lista.NUMPAC}"/>
-                        </p:column>
-                        <p:column headerText="Nombre">
-                            <h:outputText value="#{lista.NOMPAC}"/>
-                        </p:column>
-                        <p:column headerText="Apellido">
-                            <h:outputText value="#{lista.APEPAC}"/>
-                        </p:column>
-                        <p:column headerText="Sexo">
-                            <h:outputText value="#{lista.SEXPAC}"/>
-                        </p:column>
-                        <p:column headerText="Nacimiento">
-                            <h:outputText value="#{lista.FNPAC}"/>
-                        </p:column>
-                        <p:column headerText="DNI">
-                            <h:outputText value="#{lista.DNIPAC}"/>
-                        </p:column>
-                        <p:column headerText="Teléfono">
-                            <h:outputText value="#{lista.TELFPAC}"/>
-                        </p:column>
-                        <p:column headerText="Email">
-                            <h:outputText value="#{lista.EMAILPAC}"/>
-                        </p:column>
-                        <p:column headerText="Distrito">
-                            <h:outputText value="#{lista.NUMUBI}"/>
-                        </p:column>
-                        <p:column headerText="Dirección">
-                            <h:outputText value="#{lista.DIRPAC}"/>
-                        </p:column>
-                        <p:column headerText="Grupo Sanguineo">
-                            <h:outputText value="#{lista.GSPAC}"/>
-                        </p:column>
-                        <p:column headerText="Historia">
-                            <h:outputText value="#{lista.HCPAC}"/>
-                        </p:column>
-                        <p:column headerText="Estado">
-                            <h:outputText value="#{lista.ESTPAC}"/>
-                        </p:column>
-                        <p:column headerText="Modificar" exportable="false" >
-                            <p:commandButton value="Modificar" onclick="PF('wdlUpdate').show()">
-                                <!--<f:setPropertyActionListener value="#{lista}" target="#{pacienteC.paciente}"/>-->
-                            </p:commandButton>
-                        </p:column>
-                        <ui:include src="UpdPaciente.xhtml"/>   
-                    </p:dataTable>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template1.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"      
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <ui:define name="content">
+        <h:head>
+            <title>Mantenimiento de Paciente</title>
+            <f:event type="preRenderView" listener="#{pacienteC.listar()}" />
+        </h:head>
+        <h:body>  
+            <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+            <h:form id="formPac">
+                <p:dataTable value="#{pacienteC.listaPaciente}" var="lista" id="tblPac" rows="10" paginator="true"
+                             paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
+                             {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,100">
+                    <p:column headerText="Id">
+                        <h:outputText value="#{lista.NUMPAC}"/>
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{lista.NOMPAC}"/>
+                    </p:column>
+                    <p:column headerText="Apellido">
+                        <h:outputText value="#{lista.APEPAC}"/>
+                    </p:column>
+                    <p:column headerText="Sexo">
+                        <h:outputText value="#{lista.SEXPAC}"/>
+                    </p:column>
+                    <p:column headerText="Nacimiento">
+                        <h:outputText value="#{lista.FNPAC}"/>
+                    </p:column>
+                    <p:column headerText="DNI">
+                        <h:outputText value="#{lista.DNIPAC}"/>
+                    </p:column>
+                    <p:column headerText="Teléfono">
+                        <h:outputText value="#{lista.TELFPAC}"/>
+                    </p:column>
+                    <p:column headerText="Email">
+                        <h:outputText value="#{lista.EMAILPAC}"/>
+                    </p:column>
+                    <p:column headerText="Distrito">
+                        <h:outputText value="#{lista.NUMUBI}"/>
+                    </p:column>
+                    <p:column headerText="Dirección">
+                        <h:outputText value="#{lista.DIRPAC}"/>
+                    </p:column>
+                    <p:column headerText="Grupo Sanguineo">
+                        <h:outputText value="#{lista.GSPAC}"/>
+                    </p:column>
+                    <p:column headerText="Historia">
+                        <h:outputText value="#{lista.HCPAC}"/>
+                    </p:column>
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{lista.ESTPAC}"/>
+                    </p:column>
+                    <p:column headerText="Modificar" exportable="false" >
+                        <p:commandButton value="Modificar" onclick="PF('wdlUpdate').show()">
+                            <!--<f:setPropertyActionListener value="#{lista}" target="#{pacienteC.paciente}"/>-->
+                        </p:commandButton>
+                    </p:column>
+                    <ui:include src="UpdPaciente.xhtml"/>   
+                </p:dataTable>
 
-                    <p:contextMenu for="tblPac" >
-                        <p:menuitem value="Editar" oncomplete="PF('wdlUpdate').show();" icon="pi pi-refresh"/>
-                        <p:menuitem value="Eliminar" actionListener="#{pacienteC.eliminar()}" update="mensaje tblPac" 
-                                    icon="pi pi-times"/>
-                    </p:contextMenu>                    
+                <p:contextMenu for="tblPac" >
+                    <p:menuitem value="Editar" oncomplete="PF('wdlUpdate').show();" icon="pi pi-refresh"/>
+                    <p:menuitem value="Eliminar" actionListener="#{pacienteC.eliminar()}" update="mensaje tblPac" 
+                                icon="pi pi-times"/>
+                </p:contextMenu>                    
 
-                </h:form>                
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+            </h:form>
+            </h:body>
+    </ui:define>
+</ui:composition>
+
 

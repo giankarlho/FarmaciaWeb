@@ -90,7 +90,7 @@ public class VentasC implements Serializable {
                 tempVta.setProveedor(daoMed.proveedor);
                 tempVta.setStockMed(daoMed.stockMed);
                 tempVta.setPrecio(daoMed.precio);
-                tempVta.setCantPed(cantPed); // esto ya lo tengo en la vista
+                tempVta.setCantPed(cantPed);                    // esto ya lo tengo en la vista
                 tempVta.setSubTotal((double) (tempVta.getPrecio() * tempVta.getCantPed()));
                 this.productos.add(tempVta);
                 monto += tempVta.getSubTotal();
@@ -121,8 +121,9 @@ public class VentasC implements Serializable {
         monto = 0.0;
         limpiarCampos();
         productos.clear();
-        Calendar c1 = Calendar.getInstance();
+        Calendar c1 = Calendar.getInstance(); 
         regventa.setNdoc(daoVtas.generarTicket(String.valueOf(c1.get(Calendar.YEAR)), 3, "TIC", true));
+        System.out.println("regventa.setNdoc" + regventa.getNdoc());
     }
 
     public void anularTmp() throws Exception {
@@ -159,17 +160,18 @@ public class VentasC implements Serializable {
             for (TempVta venta : productos) {                                       // Registrando el detalle
                 regdetVta.setNummed(venta.getIdMed());
                 regdetVta.setCant(venta.getCantPed());
+                daoVtas.actualizarStockMed( venta.getCantPed(),venta.getIdMed());
                 regdetVta.setStotal(venta.getSubTotal());
                 daoVtas.registrarVtaDet(regdetVta);
             }
             nuevoRegVta();                                                          // Limpieza de campos en la vista
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro", "Satisfactorio"));
-            fechaActual = FuncFecha.fechaString((java.sql.Date) regventa.getFecha());
+            fechaActual = FuncFecha.fechaToString((java.sql.Date) regventa.getFecha());             
             ReporteS reports = new ReporteS();
             JasperPrint reportelleno = reports.generarTicket(BigDecimal.valueOf(regdetVta.getNrodoc()), "Giancarlo Valencia ", fechaActual);
             JasperPrintManager.printReport(reportelleno, true);
         } catch (Exception e) {
-            System.out.println("Error en registrarC " + e.getMessage());
+            System.out.println("Error en VentasC/registrarC " + e.getMessage());
         }
     }
 

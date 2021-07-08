@@ -1,18 +1,15 @@
 package dao;
 
 import java.sql.CallableStatement;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import jdk.nashorn.internal.runtime.logging.Logger;
-import model.DetVta;
-import model.ListVenta;
 import model.RegVenta;
 import model.RegVentaDet;
+import services.FuncFecha;
 
 public class VentasD extends Conexion {
 
@@ -26,6 +23,7 @@ public class VentasD extends Conexion {
             ps.setString(2, venta.getTipdoc());
             SimpleDateFormat forma = new SimpleDateFormat("yyyy-MM-dd");
             ps.setString(3, forma.format(venta.getFecha()));        // model/fecha tipo Date
+//            ps.setString(3,FuncFecha.fechaToString((Date) venta.getFecha()));
             ps.setDouble(4, venta.getMonto());
             ps.setString(5, venta.getObs());
             ps.setInt(6, venta.getNumpac());
@@ -52,6 +50,26 @@ public class VentasD extends Conexion {
             System.out.println("Error al VentasD/registrarVtaDet " + e.getMessage());
         } finally {
             this.cerrar();
+        }
+    }
+    
+    public void actualizarStockMed(int cant, int codMedicina) throws Exception{
+        try {
+            String sql1 = "select CANTMED from medicina where NUMMED=" + codMedicina;                        
+            Statement st = this.conectar().createStatement();
+            ResultSet rs = st.executeQuery(sql1);
+            if (rs.next()){
+                cant = rs.getInt("CANTMED") - cant;                
+            }
+            String sql2 = "update medicina set CANTMED=? where NUMMED=" + codMedicina;
+            PreparedStatement ps = this.conectar().prepareStatement(sql2);
+            ps.setInt(1,cant);
+            ps.executeUpdate();
+            ps.close();
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+            System.out.println("Error en VentasD/actualizarStockMed: " + e.getMessage());
         }
     }
 
