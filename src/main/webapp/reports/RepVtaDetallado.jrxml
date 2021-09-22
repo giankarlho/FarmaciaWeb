@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepDetalladoVta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3c03a7a9-0f14-4899-ac7e-9654677c9887">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DA_SqlServer"/>
+	<parameter name="fecha1" class="java.lang.String"/>
+	<parameter name="fecha2" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select m.NUMMED,(m.NOMCOMMED + '  (' + m.NOMGENMED + '),  ' + m.PREMED) as NOMCOMMED, v.NUM_DOC,dv.CANTV_MED,dv.STOTV_DOC,
+m.PRECMED, v.FCHING_DOC,(p.NOMPAC + ', ' + p.APEPAC) as nompac
+from paciente p inner join DOC_VENTA v on p.NUMPAC=v.NUMPAC inner join DETVENTA dv on v.NCOD_DOC=dv.NCOD_DOC inner join MEDICINA m on dv.NUMMED=m.NUMMED
+where(v.FCHING_DOC >=? AND v.FCHING_DOC < ? )  and v.EST_DOC='D' order by v.FCHING_DOC]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

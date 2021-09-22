@@ -26,8 +26,8 @@ import model.RegVentaDet;
 import model.TempVta;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import reports.ReporteS;
 import services.FuncFecha;
+import services.ReporteS;
 
 @Data
 @Named(value = "ventasC")
@@ -74,7 +74,7 @@ public class VentasC implements Serializable {
         try {
             boolean repetido = false;
             for (int i=0;i<productos.size();i++){
-                if(productos.get(i).getIdMed().equals(daoMed.obtenerCodigoMedicina(cadenaMed))){
+                if(productos.get(i).getIdMed() == daoMed.obtenerCodigoMedicina(cadenaMed)){
                     repetido = true;
                     cadenaMed ="";
                     break;
@@ -166,14 +166,16 @@ public class VentasC implements Serializable {
             }
             nuevoRegVta();                                                          // Limpieza de campos en la vista
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro", "Satisfactorio"));
-            fechaActual = FuncFecha.fechaToString((java.sql.Date) regventa.getFecha());             
+//            fechaActual = FuncFecha.fechaToString((java.sql.Date) regventa.getFecha());             
+            fechaActual="10/07/2021";
             ReporteS reports = new ReporteS();
-            JasperPrint reportelleno = reports.generarTicket(BigDecimal.valueOf(regdetVta.getNrodoc()), "Giancarlo Valencia ", fechaActual);
+            JasperPrint reportelleno = reports.generarTicket(regdetVta.getNrodoc(), "Giancarlo Valencia", fechaActual);
             JasperPrintManager.printReport(reportelleno, true);
         } catch (Exception e) {
             System.out.println("Error en VentasC/registrarC " + e.getMessage());
         }
-    }
+    }  
+    
 
     public List<String> completeTextPaciente(String query) throws SQLException, Exception {
         PacienteImpl daoPac = new PacienteImpl();

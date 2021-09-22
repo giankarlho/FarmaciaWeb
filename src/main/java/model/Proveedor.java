@@ -1,20 +1,21 @@
 package model;
 
+import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class Proveedor {
+public class Proveedor implements Serializable{
 
-    private int id;
-    private String razon;
-    private String ruc;
-    private String dir;
-    private String tipo;
-    private String telf;
-    private String contacto;
-    private String mail;
-    private String abre;
-    private String ubigeo;
-    private String comercial;
+     int id;
+     String razon;
+     String ruc;
+     String dir;
+     String tipo;
+     String telf;
+     String contacto;
+     String mail;
+     String abre;
+     String ubigeo;
+     String comercial;
 
 }

@@ -7,7 +7,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
+
     <ui:define name="content">
         <h:head>
             <title>Mantenimiento de Paciente</title>
@@ -16,6 +16,7 @@
         <h:body>  
             <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
             <h:form id="formPac">
+                <p:commandLink actionListener="#{pacienteC.imprimirList()}" value="Imprimir"/>
                 <p:dataTable value="#{pacienteC.listaPaciente}" var="lista" id="tblPac" rows="10" paginator="true"
                              paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} 
                              {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,100">
@@ -64,16 +65,25 @@
                         </p:commandButton>
                     </p:column>
                     <ui:include src="UpdPaciente.xhtml"/>   
-                </p:dataTable>
-
+                </p:dataTable>    
                 <p:contextMenu for="tblPac" >
-                    <p:menuitem value="Editar" oncomplete="PF('wdlUpdate').show();" icon="pi pi-refresh"/>
-                    <p:menuitem value="Eliminar" actionListener="#{pacienteC.eliminar()}" update="mensaje tblPac" 
-                                icon="pi pi-times"/>
-                </p:contextMenu>                    
+                    <p:menuitem>
+                        <p:commandButton  value="Modificar" oncomplete="PF('wdlUpdate').show();" update=":dlgViajeModificar" icon="pi pi-refresh"/>
+                    </p:menuitem>
+                    <p:menuitem >
+                        <p:commandButton value="Eliminar" icon="ui_icon_trash" actionListener="#{pacienteC.eliminar(viajeC.via)}" update= "tblPac mensaje">
+                            <p:confirm header="Confirmación" message="¿Deseas eliminar?" icon="ui_icon_trash"/>
+                        </p:commandButton>
+                        <p:confirmDialog  global="true">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes"  />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        </p:confirmDialog>  
 
+                    </p:menuitem>
+                </p:contextMenu>
+                <p:commandButton value="Imprimir" actionListener="#{pacienteC.imprimirList()}"
             </h:form>
-            </h:body>
+        </h:body>
     </ui:define>
 </ui:composition>
 

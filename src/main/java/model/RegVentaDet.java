@@ -1,12 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class RegVentaDet {
+public class RegVentaDet implements Serializable {
      // NUMMED  NCOD_DOC  CANTV_MED   STOTV_DOC
-    private int nummed;
-    private int cant;
-    private int nrodoc;
-    private Double stotal;        
+     int nummed;
+     int cant;
+     int nrodoc;
+     Double stotal;        
 }

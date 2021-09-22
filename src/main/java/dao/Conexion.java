@@ -35,9 +35,9 @@ public class Conexion {
     public static void main(String[] args) throws Exception {
         conectar();
         if(cnx!=null){
-            System.out.println("esta abierta, jojolete");
+            System.out.println("ok, todo bien 😁 ");
         }else{
-            System.out.println("fijate el driver, conexión, etc....monse");
+            System.out.println("fijate el driver, error");
         }
     }
 

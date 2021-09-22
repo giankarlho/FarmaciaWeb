@@ -10,6 +10,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import lombok.Data;
 import model.Paciente;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import services.ReporteS;
 
 @Named(value = "pacienteC")
 @SessionScoped
@@ -52,6 +55,16 @@ public class PacienteC implements Serializable {
             System.out.println("listado" + listaPaciente);
         } catch (Exception e) {
             System.out.println("Error en PacienteC/listar: " + e.getMessage());
+        }
+    }
+    
+    public void imprimirList() throws Exception{
+        try {
+            ReporteS reports = new ReporteS();
+//            JasperPrint reportelleno = reports.listadoPacientes(parameters);
+//            JasperPrintManager.printReport(reportelleno, true);
+        } catch (Exception e) {
+            System.out.println("Error en PacienteC/imprimirList: " + e.getMessage());
         }
     }
     

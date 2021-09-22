@@ -1,11 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class Serie {
+public class Serie implements Serializable{
     
-    private Integer tipser;
-    private String FACSER;
+     Integer tipser;
+     String FACSER;
     
 }

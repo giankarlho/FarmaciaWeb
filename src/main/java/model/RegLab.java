@@ -1,17 +1,18 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class RegLab {
+public class RegLab implements Serializable {
     // NUMSLAB NROLAB NUMPAC MONTLAB FCHLAB OBSLAB ESTLAB 
-    private int numslab;
-    private int numpac;
-    private String nrolab;
-    private String obslab;
-    private String estlab;
-    private Double montlab;
-    private Timestamp fechlab;
+     int numslab;
+     int numpac;
+     String nrolab;
+     String obslab;
+     String estlab;
+     Double montlab;
+     Timestamp fechlab;
     
 }

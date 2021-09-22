@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class Laboratorio {
 
-    private String codigo;
-    private String prueba;
-    private String muestra;
-    private String presenta;
-    private String tipo;
-    private String destino;
-    private Float precio;
+     String codigo;
+     String prueba;
+     String muestra;
+     String presenta;
+     String tipo;
+     String destino;
+     Float precio;
     
 }

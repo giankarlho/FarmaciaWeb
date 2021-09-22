@@ -1,138 +1,139 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-    <h:head>
-        <title>Venta de Medicamentos</title>
-        <link href="../../resources/css/style.css" rel="stylesheet" type="text/css"/>
-        <!--<f:event type="preRenderView" listener="#{ventasC.nuevoRegVta()}"/>-->
-    </h:head>
-    <h:body>        
-        <center>
-            <p:growl id="mensaje" showDetail="true" >
-                <p:autoUpdate/>
-            </p:growl>
-            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
-            <h1>Venta de Medicamentos</h1>
-            <h:form id="frmTempVta">      
-                <p:panelGrid styleClass="ui-datagrid-no-border">
-                    <p:row>
-                        <p:column style="font-weight: bold; color: orangered">
-                            <p:outputLabel value="Ticker Nro. " />  
-                        </p:column>                                                        
-                        <p:column style="font-weight: bold; color: deepskyblue;">
-                            <p:outputLabel id="nroDoc" value="#{ventasC.regventa.ndoc}"/> 
-                        </p:column>          
-                        <p:column styleClass="ui-widget-header" style="background: white">
-                            <p:spacer height="0"/>
-                        </p:column>
-                        <p:column style="font-weight: bold; color: orangered">
-                            <p:outputLabel value="Fecha" for="calendar" />
-                        </p:column>                                                        
-                        <p:column style="font-weight: bold; color: deepskyblue;">
-                            <p:datePicker id="calendar" value="#{ventasC.regventa.fecha}" locale="es" monthNavigator="true" pattern="dd-MM-yyyy"/>                        
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column colspan="5" styleClass="ui-widget-header" style="background: white">
-                            <p:spacer height="0"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Paciente"/>
-                        </p:column>
-                        <p:column colspan="4">
-                            <p:autoComplete id="pac" value="#{ventasC.cadenaPac}" completeMethod="#{ventasC.completeTextPaciente}"
-                                            inputStyle="width: 100%;" minQueryLength="2" class="contPac" /> 
-<!--                            <p:selectOneMenu id="pac" value="#{ventasC.paciente.DNIPAC}" style="width:300px"
-                                             filter="true" filterMatchMode="contains" required="true" requiredMessage="Ingrese el Paciente" >
-                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
-                                <f:selectItems value="#{pacienteC.listaPaciente}" var="paciente"
-                                               itemValue="#{paciente.DNIPAC}"
-                                               itemLabel="#{paciente.NOMPAC} #{paciente.APEPAC}"/>
-                            </p:selectOneMenu>-->
-                        </p:column> 
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Medicina" />
-                        </p:column>
-                        <p:column colspan="4">
-                            <p:autoComplete id="med" value="#{ventasC.cadenaMed}" completeMethod="#{ventasC.completeTextMedicina}" 
-                                            inputStyle="width: 100%;" minQueryLength="2" class="contMed"/> 
-                        </p:column>  
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel value="Cantidad"/>
-                        </p:column>
-                        <p:column>
-                            <p:spinner id="cant" value="#{ventasC.cantPed}" max="50" min="1"/>
-                        </p:column>
-                        <p:column>
-                            <p:commandButton value="Nuevo" actionListener="#{ventasC.nuevoRegVta()}" update="frmTempVta nroDoc" />
-                        </p:column>
-                        <p:column>
-                            <p:commandButton value="Agregar" actionListener="#{ventasC.agregarTmp()}" update="tblProduct frmTempVta" id="btnAgregar" />
-                        </p:column>
-                        <p:column>
-                            <p:commandButton value="Anular" actionListener="#{ventasC.anularTmp()}" update="tblProduct frmTempVta"/>
-                        </p:column>
-                    </p:row>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template1.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"      
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="content">
+        <h:head>
+            <title>Venta de Medicamentos</title>
+            <link href="../../resources/css/style.css" rel="stylesheet" type="text/css"/>
+            <!--<f:event type="preRenderView" listener="#{ventasC.nuevoRegVta()}"/>-->
+        </h:head>
+        <h:body>        
+            <center>
+                <h1>Venta de Medicamentos</h1>
+                <h:form id="frmTempVta">      
+                    <p:panelGrid styleClass="ui-datagrid-no-border">
+                        <p:row>
+                            <p:column style="font-weight: bold; color: orangered">
+                                <p:outputLabel value="Ticker Nro. " />  
+                            </p:column>                                                        
+                            <p:column style="font-weight: bold; color: deepskyblue;">
+                                <p:outputLabel id="nroDoc" value="#{ventasC.regventa.ndoc}"/> 
+                            </p:column>          
+                            <p:column styleClass="ui-widget-header" style="background: white">
+                                <p:spacer height="0"/>
+                            </p:column>
+                            <p:column style="font-weight: bold; color: orangered">
+                                <p:outputLabel value="Fecha" for="calendar" />
+                            </p:column>                                                        
+                            <p:column style="font-weight: bold; color: deepskyblue;">
+                                <p:datePicker id="calendar" value="#{ventasC.regventa.fecha}" locale="es" monthNavigator="true" pattern="dd-MM-yyyy"/>                        
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="5" styleClass="ui-widget-header" style="background: white">
+                                <p:spacer height="0"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Paciente"/>
+                            </p:column>
+                            <p:column colspan="4">
+                                <p:autoComplete id="pac" value="#{ventasC.cadenaPac}" completeMethod="#{ventasC.completeTextPaciente}"
+                                                inputStyle="width: 100%;" minQueryLength="2" class="contPac" /> 
+    <!--                            <p:selectOneMenu id="pac" value="#{ventasC.paciente.DNIPAC}" style="width:300px"
+                                                 filter="true" filterMatchMode="contains" required="true" requiredMessage="Ingrese el Paciente" >
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{pacienteC.listaPaciente}" var="paciente"
+                                                   itemValue="#{paciente.DNIPAC}"
+                                                   itemLabel="#{paciente.NOMPAC} #{paciente.APEPAC}"/>
+                                </p:selectOneMenu>-->
+                            </p:column> 
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Medicina" />
+                            </p:column>
+                            <p:column colspan="4">
+                                <p:autoComplete id="med" value="#{ventasC.cadenaMed}" completeMethod="#{ventasC.completeTextMedicina}" 
+                                                inputStyle="width: 100%;" minQueryLength="2" class="contMed"/> 
+                            </p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Cantidad"/>
+                            </p:column>
+                            <p:column>
+                                <p:spinner id="cant" value="#{ventasC.cantPed}" max="50" min="1"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Nuevo" actionListener="#{ventasC.nuevoRegVta()}" update="frmTempVta nroDoc" />
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Agregar" actionListener="#{ventasC.agregarTmp()}" update="tblProduct frmTempVta" id="btnAgregar" />
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Anular" actionListener="#{ventasC.anularTmp()}" update="tblProduct frmTempVta"/>
+                            </p:column>
+                        </p:row>
 
-                </p:panelGrid> 
-                <br/>               
+                    </p:panelGrid> 
+                    <br/>               
 
-                <p:dataTable id="tblProduct" var="product" value="#{ventasC.productos}" emptyMessage="Se tiene la lista sin medicamentos">
-                    <p:column headerText="Id" style="width:3%">
-                        <h:outputText value="#{product.idMed}" />
-                    </p:column>
-                    <p:column headerText="Genérico">
-                        <h:outputText value="#{product.generico}" />
-                    </p:column>
-                    <p:column headerText="Comercial">
-                        <h:outputText value="#{product.comercial}" />
-                    </p:column>
-                    <p:column headerText="Proveedor">
-                        <h:outputText value="#{product.proveedor}" />
-                    </p:column>
-                    <p:column headerText="Presentacion">
-                        <h:outputText value="#{product.presentacion}" />
-                    </p:column>
-                    <p:column headerText="Stock" style="width: 5%;" >
-                        <h:outputText value="#{product.stockMed}" />
-                    </p:column>
-                    <p:column headerText="Precio" style="width: 5%;" >
-                        <h:outputText value="#{product.precio}" />
-                    </p:column>
-                    <p:column headerText="Cantidad" style="width: 4%;" >
-                        <h:outputText value="#{product.cantPed}" />
-                    </p:column>
-                    <p:column headerText="SubTotal s/" style="width: 7%;" >
-                        <h:outputText value="#{product.subTotal}" />
-                    </p:column>
-                    <p:column style="width:35px">
-                        <p:rowEditor />
-                    </p:column>       
-                    <p:column headerText="Quitar" style="width: 30px">
-                        <p:commandButton value="Eliminar" icon="pi pi-times" actionListener="${ventasC.eliminarFilaTmp(product)}"
-                                         update="frmTempVta tblProduct">
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
-                <br/>
-                <p:outputLabel value="Observación"/>
-                <p:inputText value="#{ventasC.regventa.obs}" id="obs" />
-                <p:commandButton value="Registrar" actionListener="#{ventasC.registar()}" update="tblProduct frmTempVta" id="btnRegistrar" />
-                <p:outputLabel value="Total S/ "/>
-                <p:outputLabel value="#{ventasC.monto}" id="monto"/>   
-                <br/>
+                    <p:dataTable id="tblProduct" var="product" value="#{ventasC.productos}" emptyMessage="Se tiene la lista sin medicamentos">
+                        <p:column headerText="Id" style="width:3%">
+                            <h:outputText value="#{product.idMed}" />
+                        </p:column>
+                        <p:column headerText="Genérico">
+                            <h:outputText value="#{product.generico}" />
+                        </p:column>
+                        <p:column headerText="Comercial">
+                            <h:outputText value="#{product.comercial}" />
+                        </p:column>
+                        <p:column headerText="Proveedor">
+                            <h:outputText value="#{product.proveedor}" />
+                        </p:column>
+                        <p:column headerText="Presentacion">
+                            <h:outputText value="#{product.presentacion}" />
+                        </p:column>
+                        <p:column headerText="Stock" style="width: 5%;" >
+                            <h:outputText value="#{product.stockMed}" />
+                        </p:column>
+                        <p:column headerText="Precio" style="width: 5%;" >
+                            <h:outputText value="#{product.precio}" />
+                        </p:column>
+                        <p:column headerText="Cantidad" style="width: 4%;" >
+                            <h:outputText value="#{product.cantPed}" />
+                        </p:column>
+                        <p:column headerText="SubTotal s/" style="width: 7%;" >
+                            <h:outputText value="#{product.subTotal}" />
+                        </p:column>
+                        <p:column style="width:35px">
+                            <p:rowEditor />
+                        </p:column>       
+                        <p:column headerText="Quitar" style="width: 30px">
+                            <p:commandButton value="Eliminar" icon="pi pi-times" actionListener="${ventasC.eliminarFilaTmp(product)}"
+                                             update="frmTempVta tblProduct">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <br/>
+                    <p:outputLabel value="Observación"/>
+                    <p:inputText value="#{ventasC.regventa.obs}" id="obs" />
+                    <p:commandButton value="Registrar" actionListener="#{ventasC.registar()}" update="tblProduct frmTempVta" id="btnRegistrar" />
+                    <p:outputLabel value="Total S/ "/>
+                    <p:outputLabel value="#{ventasC.monto}" id="monto"/>   
+                    <br/>
 
-            </h:form>        
-        </center>
-        <script src="../../resources/js/Calendar.js" type="text/javascript"></script>
-    </h:body>
-</html>
+                </h:form>        
+            </center>
+            <script src="../../resources/js/Calendar.js" type="text/javascript"></script>
+        </h:body>
+    </ui:define>
+</ui:composition>

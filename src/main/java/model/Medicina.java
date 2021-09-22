@@ -1,22 +1,23 @@
 package model;
 
+import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class Medicina {
+public class Medicina implements Serializable{
 //NUMMED  NOMGENMED  NOMCOMMED  COSMED  PRECMED   PREMED  CANTMED OBSMED LUGMED FCHMED  LOTMED ESTMED NUMPROV
 
-    private int idMed;
-    private String generico;
-    private String comercial;
-    private float costo;
-    private float precio;
-    private String presen;
-    private int cantidad;
-    private String obs;
-    private String lugar;
-    private String fecha;
-    private String lote;
-    private String estado;
-    private int idProv;
+     Integer idMed;
+     String generico;
+     String comercial;
+     float costo;
+     float precio;
+     String presen;
+     int cantidad;
+     String obs;
+     String lugar;
+     String fecha;
+     String lote;
+     String estado;
+     int idProv;
 }

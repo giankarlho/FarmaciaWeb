@@ -1,13 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class Ubigeo {
+public class Ubigeo implements Serializable{
 
-    private String dpto;
-    private String prov;
-    private String dist;
-    private String id;
+     String dpto;
+     String prov;
+     String dist;
+     String id;
 
 }
