@@ -6,6 +6,7 @@ C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\model\Labo
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\model\Ubigeo.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\dao\IUbigeo.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\dao\PacienteImpl.java
+C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\dao\ProveedorImpl.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\model\Usuario.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\model\RegCompra.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\dao\MedicinaImpl.java
@@ -29,6 +30,7 @@ C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\model\RegC
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\dao\UsuarioD.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\model\RegLab.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\model\RegVentaDet.java
+C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\services\Encriptar.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\services\ReporteS.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\model\ListVenta.java
 C:\Users\Joaquin\Documents\NetBeansProjects\FarmaciaWeb\src\main\java\converter\ConverterFecha.java

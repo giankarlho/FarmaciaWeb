@@ -3,15 +3,17 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Ingreso al Sistema - Login Básico 1</title>
+        <f:event type="preRenderView" listener="#{usuarioC.seguridadLogin()}" />
     </h:head>
     <h:body>
         <h:form>
+            <p:growl id="msj" showDetail="true" life="2000"/>
             <p:panelGrid columns="2">
-                <p:inputText value="#{usuarioC.user}" placeholder="Usuario" maxlength="5" />
+                <p:inputText value="#{usuarioC.user}" placeholder="Usuario" />
                 <p:password value="#{usuarioC.pass}" placeholder="Contraseña" />
             </p:panelGrid>
-            <p:commandButton value="Ingresar" action="#{usuarioC.login()}"/> 
+            <p:commandButton value="Ingresar" action="#{usuarioC.login()}" update="msj"/> 
         </h:form>
     </h:body>
 </html>

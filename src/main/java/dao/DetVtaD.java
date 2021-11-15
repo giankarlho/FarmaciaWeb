@@ -14,6 +14,15 @@ public class DetVtaD extends Conexion {
         List<DetVta> detalle = new ArrayList();
         DetVta det;
         try {
+/*            create PROCEDURE spDetalleVta
+@codigoVta int
+as
+select m.NUMMED,NOMGENMED, NOMCOMMED, PREMED, ABRPROV,CANTV_MED,PRECMED, STOTV_DOC
+from doc_venta dv inner join detventa detv on dv.NCOD_DOC= detv.NCOD_DOC inner join medicina m on detv.NUMMED = m.NUMMED
+inner join proveedor p on m.NUMPROV = p.NUMPROV
+where dv.NCOD_DOC = @codigoVta;
+*/
+
             CallableStatement ps = this.conectar().prepareCall("{call spDetalleVta(?)}");
             ps.setInt(1, codigoVta);
             ResultSet rs = ps.executeQuery();

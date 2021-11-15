@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import model.Usuario;
 
 public class UsuarioD extends Conexion {
@@ -30,4 +31,26 @@ public class UsuarioD extends Conexion {
         }
     } 
     
+    public Usuario login2(String user, String pass) throws Exception {
+        Usuario usuario = null;
+        String sql = "select nomusu, usuusu, pwdusu, levusu from usuario where"
+                + " usuusu='" + user + "' and pwdusu='" + pass + "'";
+        try {
+            Statement st = this.conectar().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                usuario = new Usuario();
+                usuario.setUser(user);
+                usuario.setPass(pass);
+                usuario.setNombre(rs.getString("nomusu"));
+                usuario.setLevel(rs.getInt("levusu"));
+            }
+            st.close();
+            rs.close();
+            return usuario;
+        } catch (Exception e) {
+            System.out.println("**************  Error en loginDao:  " + e.getMessage() + " *********************");
+            throw e;
+        }
+    }
 }

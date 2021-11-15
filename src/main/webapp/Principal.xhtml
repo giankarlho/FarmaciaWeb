@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+         <title>Página principal</title>
+        <f:event type="preRenderView" listener="#{usarioC.seguridadSesion()}" />
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid rendered="#{usuarioC.usuario.level==1}">
+                <a href="indexAdministrador.xhtml">
+                    <span>Administrador</span>
+                </a>
+            </h:panelGrid>
+            <h:panelGrid rendered="#{usuarioC.usuario.level==2}">
+                <a href="indexPersonal.xhtml">
+                    <span>Personal</span>
+                </a>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+

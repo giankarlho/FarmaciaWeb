@@ -3,8 +3,9 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Dashboard</title>
+        <title>Dashboard del Administador</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <f:event type="preRenderView" listener="#{usarioC.seguridadSesion()}" />
     </h:head>
     <h:body>
         <h:form>  

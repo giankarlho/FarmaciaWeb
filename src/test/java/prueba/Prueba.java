@@ -1,10 +1,11 @@
 package prueba;
 
+import services.Encriptar;
+
 public class Prueba {
 
     public static void main(String[] args) {
-        String texto = "WILMER palomino";
-        System.out.println("Cadena convertida " + convertirCadena(texto));
+        System.out.println("Encriptar Hola: " + Encriptar.encriptar("Hola"));
     }
 
     public static String convertirCadena(String texto) {
